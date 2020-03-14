@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# shutdown all containers and networks,
+# remove downloaded images
+# remove name volumes
+docker-compose down --rmi all -v
