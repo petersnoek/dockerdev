@@ -2,7 +2,14 @@
 FROM httpd:${APACHE_VERSION:+${APACHE_VERSION}-}alpine
 
 RUN apk update; \
-    apk upgrade;
+    apk upgrade; 
+
+RUN sed -i '/LoadModule rewrite_module/s/^#//g' /usr/local/apache2/conf/httpd.conf
+
+RUN { \
+  echo 'IncludeOptional conf.d/*.conf'; \
+} >> /usr/local/apache2/conf/httpd.conf \
+  && mkdir /usr/local/apache2/conf.d
 
 # Copy apache vhost file to proxy php requests to php-fpm container
 COPY demo.apache.conf /usr/local/apache2/conf/demo.apache.conf

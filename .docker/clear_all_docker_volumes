@@ -3,11 +3,14 @@
 # will, one by one, list docker volumes and remove them.
 # meaning: all containers have to be rebuilt and data will be lost
 
-while true; do
-    read -p "Do you really want to remove all docker volumes on your system?" yn
-    case $yn in
-        [Yy]* ) docker volume ls -q | xargs docker volume rm;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+
+read -p "Do you really want to remove all docker volumes on your system? " -n 1 -r
+echo 
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    docker volume ls -q | xargs docker volume rm
+    echo
+    echo "done. the list of volumes is now:"
+    echo
+    docker volume ls
+fi
